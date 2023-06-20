@@ -199,13 +199,14 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
         enableGrouping
         enableColumnFilterModes
         enableStickyHeader
-        positionToolbarAlertBanner="bottom"
+        positionToolbarAlertBanner="none"
         enablePagination={true}
         enableBottomToolbar={true}
         enableFullScreenToggle={false}
         localization={MRT_Localization_FI}
         initialState={{
           showGlobalFilter: true,
+          showColumnFilters: true,
           columnVisibility: {
             therapies: false,
             lastActive: false,
