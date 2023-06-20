@@ -112,6 +112,11 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
         size: 30,
       },
       {
+        accessorKey: "homepage",
+        header: "Kotisivu",
+        size: 30,
+      },
+      {
         id: "phoneNumbers",
         accessorFn: (row) => row.phoneNumbers.map((p) => p.number).join(", "),
         header: "Puh.",
@@ -204,6 +209,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
           columnVisibility: {
             therapies: false,
             lastActive: false,
+            homepage: false
           },
           pagination: {
             pageIndex: 0,
