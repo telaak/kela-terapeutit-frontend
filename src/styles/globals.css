@@ -2,21 +2,20 @@ body {
   margin: 0;
 }
 
-.table-container {
+/* .table-container {
   height: calc(100vh - 56px);
   height: calc(100dvh - 56px);
 }
 
-@media (max-width: 463px) {
+@media (max-width: 720) {
   .table-container {
     height: calc(100vh - 88px);
     height: calc(100dvh - 88px);
   }
-}
+} */
 
 .detail-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   width: 100%;
 }
-
