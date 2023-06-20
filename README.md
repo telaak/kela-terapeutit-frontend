@@ -1,6 +1,6 @@
-# Tays Terapeuttihakemiston taulukkosivu
+# Kela Terapeuttihakemiston taulukkosivu
 
-Taulukkosivu, joka mahdollistaa Taysin terapeuttihakemiston datan järjestämisen, selaamisen, suodattamisen sekä automatisoi sähköpostien lähettämistä.
+Taulukkosivu, joka mahdollistaa Kelan terapeuttihakemiston datan järjestämisen, selaamisen, suodattamisen sekä automatisoi sähköpostien lähettämistä.
 
 ## Kuvaus
 
@@ -24,7 +24,7 @@ Ryhmitys
 
 ### Asentaminen
 
-1. `git pull github.com/telaak/tays-terapeutit-frontend.git`
+1. `git pull github.com/telaak/kela-terapeutit-frontend.git`
 2. Asenna paketit `npm i`
 3. Aja Next.js `npx next build`
 4. Täytä vaadittavat ympäristömuuttujat:
@@ -37,7 +37,7 @@ Ryhmitys
 
 ## Build
 
-* `docker build -t username/tays-terapeutit-frontend`
+* `docker build -t username/kela-terapeutit-frontend`
 
 ## Compose
 
@@ -47,7 +47,7 @@ version: '3.8'
 services:
     
   frontend:
-    image: telaaks/tays-terapeutit-frontend
+    image: telaaks/kela-terapeutit-frontend
     restart: always
     environment:
       - REVALIDATE_TOKEN=jotain

@@ -137,7 +137,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
         accessorFn: (row) => JSON.stringify(row.therapies),
         Cell: ({ row }) => (
           <List dense>
-            {row.original.therapies.map((therapy) => {
+            {row.original.therapies.map((therapy: Therapy) => {
               return (
                 <>
                   <ListItem disableGutters disablePadding>
@@ -221,7 +221,6 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
             mail.click();
           };
           const copyEmails = () => {
-            //const filteredEmails = parseEmails(table);
             const emails = table
               .getSelectedRowModel()
               .flatRows.map((row) => row.original.email);
