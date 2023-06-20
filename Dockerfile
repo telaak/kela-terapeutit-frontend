@@ -51,7 +51,7 @@ COPY --from=builder /app/.next/standalone ./
 COPY --from=builder ./app/.next/static ./.next/static
 RUN apk add --no-cache tzdata
 ENV TZ=Europe/Helsinki
-RUN chown 1001:1001 /app
+RUN chown -R 1001:1001 /app
 USER nextjs
 
 EXPOSE 3000
