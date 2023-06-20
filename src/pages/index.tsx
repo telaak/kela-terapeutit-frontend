@@ -107,12 +107,14 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
         size: 30,
       },
       {
-        accessorKey: "email",
+        id: "email",
+        accessorFn: (row) => (row.email ? row.email : ""),
         header: "Spost",
         size: 30,
       },
       {
-        accessorKey: "homepage",
+        id: "homepage",
+        accessorFn: (row) => (row.homepage ? row.homepage : ""),
         header: "Kotisivu",
         size: 30,
       },
@@ -210,7 +212,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
           columnVisibility: {
             therapies: false,
             lastActive: false,
-            homepage: false
+            homepage: false,
           },
           pagination: {
             pageIndex: 0,
