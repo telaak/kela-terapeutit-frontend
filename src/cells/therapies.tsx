@@ -30,7 +30,14 @@ export function TherapiesCell({ row }: { row: MRT_Row<Terapeutti> }) {
   );
 
   return (
-    <Stack direction="row" spacing={4}>
+    <Stack
+      direction="row"
+      spacing={4}
+      sx={{
+        marginLeft: "0.5em",
+        marginRight: "0.5em"
+      }}
+    >
       {aikuisten && (
         <Badge>
           <Tooltip placement="top" title="Yksilöterapia">
@@ -142,24 +149,24 @@ export function TherapiesCell({ row }: { row: MRT_Row<Terapeutti> }) {
     </Stack>
   );
 
-  return (
-    <List dense>
-      {row.original.therapies.map((therapy: Therapy) => {
-        return (
-          <>
-            <ListItem disableGutters disablePadding>
-              <ListItemText primary={therapy.muoto} />
-            </ListItem>
-            {therapy.lajit.map((laji) => {
-              return (
-                <ListItem key={laji}>
-                  <ListItemText primary={laji} />
-                </ListItem>
-              );
-            })}
-          </>
-        );
-      })}
-    </List>
-  );
+  //   return (
+  //     <List dense>
+  //       {row.original.therapies.map((therapy: Therapy) => {
+  //         return (
+  //           <>
+  //             <ListItem disableGutters disablePadding>
+  //               <ListItemText primary={therapy.muoto} />
+  //             </ListItem>
+  //             {therapy.lajit.map((laji) => {
+  //               return (
+  //                 <ListItem key={laji}>
+  //                   <ListItemText primary={laji} />
+  //                 </ListItem>
+  //               );
+  //             })}
+  //           </>
+  //         );
+  //       })}
+  //     </List>
+  //   );
 }

@@ -38,24 +38,66 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
         filterVariant: "autocomplete",
         filterSelectOptions: names,
         filterFn: "contains",
+        enableColumnFilterModes: false,
       },
       {
         id: "orientations",
         accessorFn: (row) => row.orientations.join(", "),
         header: "Suuntaus",
-        size: 30,
+        size: 155,
         filterVariant: "autocomplete",
         filterSelectOptions: orientations,
         filterFn: "contains",
+        enableColumnFilterModes: false,
       },
       {
         id: "locations",
-        accessorFn: (row) => row.locations.join(", "),
+        accessorFn: (row) =>
+          row.locations
+            .map(
+              (location) => location.charAt(0) + location.slice(1).toLowerCase()
+            )
+            .join(", "),
         header: "Paikat",
-        size: 30,
+        size: 150,
         filterVariant: "autocomplete",
         filterSelectOptions: locations,
         filterFn: "contains",
+        enableColumnFilterModes: false,
+      },
+      {
+        id: "therapies",
+        accessorFn: (row) => {
+          const therapies = row.therapies;
+          const aikuisten = row.therapies.find(
+            (therapy) => therapy.muoto === "Aikuisten psykoterapia"
+          );
+          const nuorten = row.therapies.find(
+            (therapy) => therapy.muoto === "Nuorten psykoterapia"
+          );
+          const stringArray: string[] = [];
+          aikuisten?.lajit.forEach((laji) =>
+            stringArray.push(`Aikuisten ${laji}`)
+          );
+          nuorten?.lajit.forEach((laji) => stringArray.push(`Nuorten ${laji}`));
+          return stringArray.join(" ");
+        },
+        Cell: ({ row }) => <TherapiesCell row={row} />,
+        header: "Muodot",
+        size: 30,
+        filterVariant: "autocomplete",
+        filterSelectOptions: [
+          "Aikuisten yksilöterapia",
+          "Aikuisten ryhmäterapia",
+          "Aikuisten perheterapia",
+          "Aikuisten paripsykoterapia",
+          "Nuorten yksilöterapia",
+          "Nuorten ryhmäterapia",
+          "Nuorten perheterapia",
+          "Nuorten paripsykoterapia",
+        ],
+        filterFn: "contains",
+        enableColumnFilterModes: false,
       },
       {
         id: "email",
@@ -99,13 +141,6 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
         Cell: ({ row }) => <IsActiveCell row={row} />,
       },
       {
-        id: "therapies",
-        accessorFn: (row) => JSON.stringify(row.therapies),
-        Cell: ({ row }) => <TherapiesCell row={row} />,
-        header: "Muodot",
-        size: 120,
-      },
-      {
         accessorKey: "lastActive",
         size: 30,
         header: "Viimeksi nähty",
@@ -129,7 +164,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
     localization: MRT_Localization_FI,
     muiTableBodyCellProps: {
       sx: {
-        wordBreak: "break-word",
+        whiteSpace: "normal",
       },
     },
     muiTableContainerProps: {

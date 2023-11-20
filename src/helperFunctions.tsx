@@ -19,7 +19,9 @@ export function getUniqueOrientationsAndLocations(therapists: Terapeutti[]) {
     therapist.orientations.forEach((orientation) =>
       orientationSet.add(orientation)
     );
-    therapist.locations.forEach((location) => locationSet.add(location));
+    therapist.locations.forEach((location) =>
+      locationSet.add(location.charAt(0) + location.slice(1).toLowerCase())
+    );
   });
   return [
     Array.from(orientationSet).sort(),

@@ -24,7 +24,7 @@ export const MRT_Localization_FI: MRT_Localization = {
   filterBetween: "Välillä",
   filterBetweenInclusive: "Välillä (inklusiivinen)",
   // filterByColumn: 'Suodata {column}',
-  filterByColumn: "",
+  filterByColumn: "Suodata",
   filterContains: "Sisältää",
   filterEmpty: "Tyhjä",
   filterEndsWith: "Loppuu",
