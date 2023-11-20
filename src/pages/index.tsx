@@ -140,7 +140,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
       showColumnFilters: true,
       isFullScreen: true,
       columnVisibility: {
-        therapies: false,
+        therapies: true,
         lastActive: false,
         homepage: false,
         isActive: false,
