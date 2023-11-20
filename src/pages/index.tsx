@@ -20,41 +20,20 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import dayjs from "dayjs";
 
-type Language = {
-  id: number;
-  fiFI: string;
-};
-
-type Orientation = {
-  id: number;
-  fiFI: string;
-};
-
 type Therapy = {
-  id: number;
   muoto: string;
   lajit: string[];
-};
-
-type Location = {
-  id: number;
-  name: string;
-};
-
-type PhoneNumber = {
-  id: number;
-  number: string;
 };
 
 type Terapeutti = {
   id: number;
   name: string;
   locations: Location[];
-  phoneNumbers: PhoneNumber[];
+  phoneNumbers: string[];
   email: string | null;
   homepage: string | null;
-  languages: Language[];
-  orientations: Orientation[];
+  languages: string[];
+  orientations: string[];
   therapies: Therapy[];
   lastActive: Date;
   isActive: boolean;
@@ -62,7 +41,7 @@ type Terapeutti = {
 
 export const apiUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}`;
 
-export const getTherapists = async (): Promise<Terapeutti[]> => {
+export const getTherapists = async (): Promise<any[]> => {
   const res = await axios.get(`${apiUrl}/therapist`);
   return res.data;
 };
@@ -96,13 +75,13 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
       },
       {
         id: "orientations",
-        accessorFn: (row) => row.orientations.map((o) => o.fiFI).join(", "),
+        accessorFn: (row) => row.orientations.join(", "),
         header: "Suuntaus",
         size: 30,
       },
       {
         id: "locations",
-        accessorFn: (row) => row.locations.map((l) => l.name).join(", "),
+        accessorFn: (row) => row.locations.join(", "),
         header: "Paikat",
         size: 30,
       },
@@ -120,7 +99,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
       },
       {
         id: "phoneNumbers",
-        accessorFn: (row) => row.phoneNumbers.map((p) => p.number).join(", "),
+        accessorFn: (row) => row.phoneNumbers.join(", "),
         header: "Puh.",
         size: 30,
       },
