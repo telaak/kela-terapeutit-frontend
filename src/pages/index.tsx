@@ -8,10 +8,8 @@ import { useMemo } from "react";
 import { MRT_Localization_FI } from "@/fi-i18";
 import { getTherapists } from "@/api";
 import { Terapeutti } from "@/types";
-import {
-  getUniqueOrientationsAndLocations,
-} from "@/helperFunctions";
-import { TherapyCell } from "@/cells/therapies";
+import { getUniqueOrientationsAndLocations } from "@/helperFunctions";
+import { TherapiesCell } from "@/cells/therapies";
 import { LastActiveCell } from "@/cells/lastActive";
 import { IsActiveCell } from "@/cells/isActive";
 import { TopToolbar } from "@/topToolbar";
@@ -98,12 +96,12 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
         filterVariant: "checkbox",
         enableColumnFilterModes: false,
         header: "Akt.",
-        Cell: ({ row }) => IsActiveCell(row),
+        Cell: ({ row }) => <IsActiveCell row={row} />,
       },
       {
         id: "therapies",
         accessorFn: (row) => JSON.stringify(row.therapies),
-        Cell: ({ row }) => TherapyCell(row),
+        Cell: ({ row }) => <TherapiesCell row={row} />,
         header: "Muodot",
         size: 120,
       },
@@ -111,7 +109,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
         accessorKey: "lastActive",
         size: 30,
         header: "Viimeksi nähty",
-        Cell: ({ row }) => LastActiveCell(row),
+        Cell: ({ row }) => <LastActiveCell row={row} />,
       },
     ],
     []
@@ -152,7 +150,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
         pageSize: 50,
       },
     },
-    renderTopToolbarCustomActions: ({ table }) => TopToolbar(table),
+    renderTopToolbarCustomActions: ({ table }) => <TopToolbar table={table} />,
   });
 
   return (

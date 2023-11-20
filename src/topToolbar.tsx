@@ -5,7 +5,11 @@ import { isSelected } from "./helperFunctions";
 import EmailIcon from "@mui/icons-material/Email";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
-export function TopToolbar(table: MRT_TableInstance<Terapeutti>) {
+export function TopToolbar({
+  table,
+}: {
+  table: MRT_TableInstance<Terapeutti>;
+}) {
   const sendEmail = () => {
     const emails = table
       .getSelectedRowModel()

@@ -2,7 +2,7 @@ import { Terapeutti, Therapy } from "@/types";
 import { List, ListItem, ListItemText } from "@mui/material";
 import { MRT_Row } from "material-react-table";
 
-export function TherapyCell(row: MRT_Row<Terapeutti>) {
+export function TherapiesCell({ row }: { row: MRT_Row<Terapeutti> }) {
   return (
     <List dense>
       {row.original.therapies.map((therapy: Therapy) => {
