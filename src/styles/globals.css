@@ -2,21 +2,28 @@ body {
   margin: 0;
 }
 
-.table-container {
+/* .table-container {
   height: calc(100vh - 56px - 56px);
   height: calc(100dvh - 56px - 56px);
 }
 
 @media (max-width: 720px) {
   .table-container {
-    height: calc(100vh - 56px - 68px);
-    height: calc(100dvh - 56px - 68px);
+    height: calc(100vh - 56px - 74px);
+    height: calc(100dvh - 56px - 74px);
   }
 }
 
-@media (max-width: 463px) {
+@media (max-width: 584px) {
   .table-container {
-    height: calc(100vh - 88px - 56px);
-    height: calc(100dvh - 88px - 56px);
+    height: calc(100vh - 104px - 74px);
+    height: calc(100dvh - 74px - 56px);
   }
 }
+
+@media (max-width: 405px) {
+  .table-container {
+    height: calc(100vh - 104px - 98px);
+    height: calc(100dvh - 104px - 98px);
+  }
+} */

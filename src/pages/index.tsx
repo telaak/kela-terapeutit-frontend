@@ -29,7 +29,7 @@ type Therapy = {
 
 type Terapeutti = {
   name: string;
-  locations: Location[];
+  locations: string[];
   phoneNumbers: string[];
   email: string | null;
   homepage: string | null;
@@ -66,47 +66,95 @@ const isSelected = (table: MRT_TableInstance<Terapeutti>) => {
   return false;
 };
 
+function getUniqueOrientationsAndLocations(therapists: Terapeutti[]) {
+  const orientationSet: Set<string> = new Set();
+  const locationSet: Set<string> = new Set();
+  const nameSet: Set<string> = new Set();
+  therapists.forEach((therapist) => {
+    nameSet.add(therapist.name);
+    therapist.orientations.forEach((orientation) =>
+      orientationSet.add(orientation)
+    );
+    therapist.locations.forEach((location) => locationSet.add(location));
+  });
+  return [
+    Array.from(orientationSet).sort(),
+    Array.from(locationSet).sort(),
+    Array.from(nameSet),
+  ];
+}
+
 export default function Table({ therapists }: { therapists: Terapeutti[] }) {
+  const [orientations, locations, names] = useMemo(() => {
+    return getUniqueOrientationsAndLocations(therapists);
+  }, [therapists]);
+
   const columns = useMemo<MRT_ColumnDef<Terapeutti>[]>(
     () => [
       {
         accessorKey: "name",
         size: 30,
         header: "Nimi",
+        filterVariant: "autocomplete",
+        filterSelectOptions: names,
+        filterFn: "contains",
       },
       {
         id: "orientations",
         accessorFn: (row) => row.orientations.join(", "),
         header: "Suuntaus",
         size: 30,
+        filterVariant: "autocomplete",
+        filterSelectOptions: orientations,
+        filterFn: "contains",
       },
       {
         id: "locations",
         accessorFn: (row) => row.locations.join(", "),
         header: "Paikat",
         size: 30,
+        filterVariant: "autocomplete",
+        filterSelectOptions: locations,
+        filterFn: "contains",
       },
       {
         id: "email",
-        accessorFn: (row) => (row.email ? row.email : ""),
-        header: "Spost",
+        accessorFn: (row) => (row.email ? true : false),
+        Cell: ({ row }) => {
+          return <>{row.original.email}</>;
+        },
+        header: "Email",
         size: 30,
+        filterVariant: "checkbox",
+        enableColumnFilterModes: false,
       },
       {
         id: "homepage",
-        accessorFn: (row) => (row.homepage ? row.homepage : ""),
+        accessorFn: (row) => (row.homepage ? true : false),
+        Cell: ({ row }) => {
+          return <>{row.original.homepage}</>;
+        },
         header: "Kotisivu",
         size: 30,
+        filterVariant: "checkbox",
+        enableColumnFilterModes: false,
       },
       {
         id: "phoneNumbers",
-        accessorFn: (row) => row.phoneNumbers.join(", "),
+        accessorFn: (row) => (row.phoneNumbers.length ? true : false),
+        Cell: ({ row }) => {
+          return <>{row.original.phoneNumbers.join(" ")}</>;
+        },
         header: "Puh.",
         size: 30,
+        filterVariant: "checkbox",
+        enableColumnFilterModes: false,
       },
       {
         accessorKey: "isActive",
         size: 30,
+        filterVariant: "checkbox",
+        enableColumnFilterModes: false,
         header: "Akt.",
         Cell: ({ row }) => {
           const isActive = row.original.isActive;
@@ -168,19 +216,29 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
     enableRowSelection: true,
     enableGrouping: true,
     enableColumnFilterModes: true,
-    enableStickyHeader: true,
     positionToolbarAlertBanner: "none",
     enablePagination: true,
     enableBottomToolbar: true,
+    enableColumnDragging: false,
     enableFullScreenToggle: false,
     localization: MRT_Localization_FI,
+    muiTableBodyCellProps: {
+      sx: {
+        wordBreak: "break-word",
+      },
+    },
+    muiTableContainerProps: {
+      className: "table-container",
+    },
     initialState: {
       showGlobalFilter: true,
       showColumnFilters: true,
+      isFullScreen: true,
       columnVisibility: {
         therapies: false,
         lastActive: false,
         homepage: false,
+        isActive: false,
       },
       pagination: {
         pageIndex: 0,
