@@ -7,7 +7,9 @@ import {
   Tooltip,
 } from "@mui/material";
 import axios from "axios";
-import MaterialReactTable, {
+import {
+  MaterialReactTable,
+  useMaterialReactTable,
   MRT_ColumnDef,
   MRT_TableInstance,
 } from "material-react-table";
@@ -26,7 +28,6 @@ type Therapy = {
 };
 
 type Terapeutti = {
-  id: number;
   name: string;
   locations: Location[];
   phoneNumbers: string[];
@@ -161,106 +162,102 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
     []
   );
 
+  const table = useMaterialReactTable({
+    columns,
+    data: therapists,
+    enableRowSelection: true,
+    enableGrouping: true,
+    enableColumnFilterModes: true,
+    enableStickyHeader: true,
+    positionToolbarAlertBanner: "none",
+    enablePagination: true,
+    enableBottomToolbar: true,
+    enableFullScreenToggle: false,
+    localization: MRT_Localization_FI,
+    initialState: {
+      showGlobalFilter: true,
+      showColumnFilters: true,
+      columnVisibility: {
+        therapies: false,
+        lastActive: false,
+        homepage: false,
+      },
+      pagination: {
+        pageIndex: 0,
+        pageSize: 50,
+      },
+    },
+    renderTopToolbarCustomActions: ({ table }) => {
+      const sendEmail = () => {
+        const emails = table
+          .getSelectedRowModel()
+          .flatRows.map((row) => row.original.email);
+        let mail = document.createElement("a");
+        mail.href = `mailto:?bcc=${emails.join(",")}`;
+        mail.target = "_blank";
+        mail.click();
+      };
+      const copyEmails = () => {
+        const emails = table
+          .getSelectedRowModel()
+          .flatRows.map((row) => row.original.email);
+        navigator.clipboard.writeText(emails.join(","));
+      };
+      return (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+          }}
+        >
+          <Tooltip title={"Lähetä sähköposti"}>
+            <span
+              style={{
+                marginRight: "0.5em",
+              }}
+            >
+              <Button
+                disabled={!isSelected(table)}
+                color="primary"
+                onClick={sendEmail}
+                variant="contained"
+                startIcon={<EmailIcon />}
+                sx={{
+                  width: "80px",
+                }}
+              >
+                ({table.getSelectedRowModel().flatRows.length})
+              </Button>
+            </span>
+          </Tooltip>
+          <Tooltip title={"Kopioi osoitteet"}>
+            <span>
+              <Button
+                disabled={!isSelected(table)}
+                color="primary"
+                onClick={copyEmails}
+                variant="contained"
+                startIcon={<ContentCopyIcon />}
+                sx={{
+                  width: "80px",
+                }}
+              >
+                ({table.getSelectedRowModel().flatRows.length})
+              </Button>
+            </span>
+          </Tooltip>
+        </Box>
+      );
+    },
+  });
+
   return (
     <>
       <Head>
         <title>KELA Terapeuttihakemisto</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <MaterialReactTable
-        muiTableContainerProps={{ className: "table-container" }}
-        muiSearchTextFieldProps={{
-          sx: {
-            width: "10em",
-          },
-        }}
-        columns={columns}
-        data={therapists}
-        enableRowSelection
-        enableGrouping
-        enableColumnFilterModes
-        enableStickyHeader
-        positionToolbarAlertBanner="none"
-        enablePagination={true}
-        enableBottomToolbar={true}
-        enableFullScreenToggle={false}
-        localization={MRT_Localization_FI}
-        initialState={{
-          showGlobalFilter: true,
-          showColumnFilters: true,
-          columnVisibility: {
-            therapies: false,
-            lastActive: false,
-            homepage: false,
-          },
-          pagination: {
-            pageIndex: 0,
-            pageSize: 50,
-          },
-        }}
-        renderTopToolbarCustomActions={({ table }) => {
-          const sendEmail = () => {
-            const emails = table
-              .getSelectedRowModel()
-              .flatRows.map((row) => row.original.email);
-            let mail = document.createElement("a");
-            mail.href = `mailto:?bcc=${emails.join(",")}`;
-            mail.target = "_blank";
-            mail.click();
-          };
-          const copyEmails = () => {
-            const emails = table
-              .getSelectedRowModel()
-              .flatRows.map((row) => row.original.email);
-            navigator.clipboard.writeText(emails.join(","));
-          };
-          return (
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-              }}
-            >
-              <Tooltip title={"Lähetä sähköposti"}>
-                <span
-                  style={{
-                    marginRight: "0.5em",
-                  }}
-                >
-                  <Button
-                    disabled={!isSelected(table)}
-                    color="primary"
-                    onClick={sendEmail}
-                    variant="contained"
-                    startIcon={<EmailIcon />}
-                    sx={{
-                      width: "80px",
-                    }}
-                  >
-                    ({table.getSelectedRowModel().flatRows.length})
-                  </Button>
-                </span>
-              </Tooltip>
-              <Tooltip title={"Kopioi osoitteet"}>
-                <span>
-                  <Button
-                    disabled={!isSelected(table)}
-                    color="primary"
-                    onClick={copyEmails}
-                    variant="contained"
-                    startIcon={<ContentCopyIcon />}
-                    sx={{
-                      width: "80px",
-                    }}
-                  >
-                    ({table.getSelectedRowModel().flatRows.length})
-                  </Button>
-                </span>
-              </Tooltip>
-            </Box>
-          );
-        }}
-      />
+      <MaterialReactTable table={table} />
     </>
   );
 }
