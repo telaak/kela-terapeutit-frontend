@@ -33,7 +33,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
     () => [
       {
         accessorKey: "name",
-        size: 30,
+        size: 120,
         header: "Nimi",
         filterVariant: "autocomplete",
         filterSelectOptions: names,
@@ -44,7 +44,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
         id: "orientations",
         accessorFn: (row) => row.orientations.join(", "),
         header: "Suuntaus",
-        size: 155,
+        size: 150,
         filterVariant: "autocomplete",
         filterSelectOptions: orientations,
         filterFn: "contains",
@@ -84,7 +84,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
         },
         Cell: ({ row }) => <TherapiesCell row={row} />,
         header: "Muodot",
-        size: 30,
+        size: 200,
         filterVariant: "autocomplete",
         filterSelectOptions: [
           "Aikuisten yksilöterapia",
@@ -106,9 +106,15 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
           return <>{row.original.email}</>;
         },
         header: "Email",
-        size: 30,
+        size: 120,
         filterVariant: "checkbox",
         enableColumnFilterModes: false,
+        enableSorting: false,
+        muiTableBodyCellProps: {
+          sx: {
+            wordBreak: "break-all",
+          },
+        },
       },
       {
         id: "homepage",
@@ -128,13 +134,14 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
           return <>{row.original.phoneNumbers.join(" ")}</>;
         },
         header: "Puh.",
-        size: 30,
+        enableSorting: false,
+        size: 120,
         filterVariant: "checkbox",
         enableColumnFilterModes: false,
       },
       {
         accessorKey: "isActive",
-        size: 30,
+        size: 50,
         filterVariant: "checkbox",
         enableColumnFilterModes: false,
         header: "Akt.",
@@ -157,11 +164,13 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
     enableGrouping: true,
     enableColumnFilterModes: true,
     positionToolbarAlertBanner: "none",
-    enablePagination: true,
-    enableBottomToolbar: true,
+    enablePagination: false,
+    enableBottomToolbar: false,
     enableColumnDragging: false,
     enableFullScreenToggle: false,
+    layoutMode: "grid-no-grow",
     localization: MRT_Localization_FI,
+    paginationDisplayMode: "pages",
     muiTableBodyCellProps: {
       sx: {
         whiteSpace: "normal",
@@ -170,19 +179,17 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
     muiTableContainerProps: {
       className: "table-container",
     },
+    enableRowVirtualization: true,
     initialState: {
       showGlobalFilter: true,
       showColumnFilters: true,
-      isFullScreen: true,
+      isFullScreen: false,
       columnVisibility: {
         therapies: true,
         lastActive: false,
         homepage: false,
-        isActive: false,
-      },
-      pagination: {
-        pageIndex: 0,
-        pageSize: 50,
+        isActive: true,
+        locations: true,
       },
     },
     renderTopToolbarCustomActions: ({ table }) => <TopToolbar table={table} />,
