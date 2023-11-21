@@ -21,6 +21,121 @@ import GroupIcon from "@mui/icons-material/Group";
 import FamilyRestroomIcon from "@mui/icons-material/FamilyRestroom";
 import Diversity1Icon from "@mui/icons-material/Diversity1";
 
+function TherapyBadge({ lajit, label }: { lajit: string[]; label: string }) {
+  return (
+    <Badge>
+      <Tooltip placement="top" title="Yksilöterapia">
+        <Badge
+          badgeContent={
+            lajit.find((laji) => laji === "yksilöterapia") && <PersonIcon />
+          }
+        />
+      </Tooltip>
+      <Tooltip title="Pariterapia">
+        <Badge
+          badgeContent={
+            lajit.find((laji) => laji === "paripsykoterapia") && (
+              <Diversity1Icon />
+            )
+          }
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left",
+          }}
+        />
+      </Tooltip>
+
+      <Chip icon={<></>} variant="outlined" label={label} />
+      <Tooltip placement="top" title="Ryhmäterapia">
+        <Badge
+          badgeContent={
+            lajit.find((laji) => laji === "ryhmäterapia") && <GroupsIcon />
+          }
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+        ></Badge>
+      </Tooltip>
+      <Tooltip title="Perheterapia">
+        <Badge
+          badgeContent={
+            lajit.find((laji) => laji === "perheterapia") && (
+              <FamilyRestroomIcon />
+            )
+          }
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "right",
+          }}
+        />
+      </Tooltip>
+    </Badge>
+  );
+}
+
+function ArtTherapyBadge({
+  nuortenKuvataide,
+  aikuistenKuvataide,
+}: {
+  nuortenKuvataide: Therapy | undefined;
+  aikuistenKuvataide: Therapy | undefined;
+}) {
+  return (
+    <Badge>
+      <Tooltip placement="top" title="Aikuisten yksilöterapia">
+        <Badge
+          badgeContent={
+            aikuistenKuvataide?.lajit.find(
+              (laji) => laji === "yksilöterapia"
+            ) && <PersonIcon />
+          }
+        />
+      </Tooltip>
+      <Tooltip placement="bottom" title="Nuorten yksilöterapia">
+        <Badge
+          badgeContent={
+            nuortenKuvataide?.lajit.find(
+              (laji) => laji === "yksilöterapia"
+            ) && <PersonIcon />
+          }
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left",
+          }}
+        />
+      </Tooltip>
+      <Chip label="Taide" variant="outlined" />
+      <Tooltip placement="top" title="Aikuisten ryhmäterapia">
+        <Badge
+          badgeContent={
+            aikuistenKuvataide?.lajit.find(
+              (laji) => laji === "ryhmäterapia"
+            ) && <GroupsIcon />
+          }
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+        />
+      </Tooltip>
+      <Tooltip placement="bottom" title="Nuorten ryhmäterapia">
+        <Badge
+          badgeContent={
+            nuortenKuvataide?.lajit.find((laji) => laji === "ryhmäterapia") && (
+              <GroupsIcon />
+            )
+          }
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "right",
+          }}
+        />
+      </Tooltip>
+    </Badge>
+  );
+}
+
 export function TherapiesCell({ row }: { row: MRT_Row<Terapeutti> }) {
   const nuorten = row.original.therapies.find(
     (therapy) => therapy.muoto === "Nuorten psykoterapia"
@@ -28,124 +143,29 @@ export function TherapiesCell({ row }: { row: MRT_Row<Terapeutti> }) {
   const aikuisten = row.original.therapies.find(
     (therapy) => therapy.muoto === "Aikuisten psykoterapia"
   );
-
+  const aikuistenKuvataide = row.original.therapies.find(
+    (therapy) => therapy.muoto === "Aikuisten kuvataidepsykoterapia"
+  );
+  const nuortenKuvataide = row.original.therapies.find(
+    (therapy) => therapy.muoto === "Nuorten kuvataidepsykoterapia"
+  );
   return (
     <Stack
       direction="row"
       spacing={4}
       sx={{
         marginLeft: "0.5em",
-        marginRight: "0.5em"
+        marginRight: "0.5em",
       }}
     >
-      {aikuisten && (
-        <Badge>
-          <Tooltip placement="top" title="Yksilöterapia">
-            <Badge
-              badgeContent={
-                aikuisten.lajit.find((laji) => laji === "yksilöterapia") && (
-                  <PersonIcon />
-                )
-              }
-            />
-          </Tooltip>
-          <Tooltip title="Pariterapia">
-            <Badge
-              badgeContent={
-                aikuisten.lajit.find((laji) => laji === "paripsykoterapia") && (
-                  <Diversity1Icon />
-                )
-              }
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-            />
-          </Tooltip>
-
-          <Chip variant="outlined" label="Aikuisten" />
-          <Tooltip placement="top" title="Ryhmäterapia">
-            <Badge
-              badgeContent={
-                aikuisten.lajit.find((laji) => laji === "ryhmäterapia") && (
-                  <GroupsIcon />
-                )
-              }
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-            ></Badge>
-          </Tooltip>
-          <Tooltip title="Perheterapia">
-            <Badge
-              badgeContent={
-                aikuisten.lajit.find((laji) => laji === "perheterapia") && (
-                  <FamilyRestroomIcon />
-                )
-              }
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-            />
-          </Tooltip>
-        </Badge>
-      )}
-      {nuorten && (
-        <Badge>
-          <Tooltip placement="top" title="Yksilöterapia">
-            <Badge
-              badgeContent={
-                nuorten.lajit.find((laji) => laji === "yksilöterapia") && (
-                  <PersonIcon />
-                )
-              }
-            />
-          </Tooltip>
-          <Tooltip title="Pariterapia">
-            <Badge
-              badgeContent={
-                nuorten.lajit.find((laji) => laji === "paripsykoterapia") && (
-                  <Diversity1Icon />
-                )
-              }
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-            />
-          </Tooltip>
-
-          <Chip variant="outlined" label="Nuorten" />
-          <Tooltip placement="top" title="Ryhmäterapia">
-            <Badge
-              badgeContent={
-                nuorten.lajit.find((laji) => laji === "ryhmäterapia") && (
-                  <GroupsIcon />
-                )
-              }
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-            ></Badge>
-          </Tooltip>
-          <Tooltip title="Perheterapia">
-            <Badge
-              badgeContent={
-                nuorten.lajit.find((laji) => laji === "perheterapia") && (
-                  <FamilyRestroomIcon />
-                )
-              }
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-            />
-          </Tooltip>
-        </Badge>
-      )}
+      {aikuisten && <TherapyBadge label="Aikuisten" lajit={aikuisten.lajit} />}
+      {nuorten && <TherapyBadge label="Nuorten" lajit={nuorten.lajit} />}
+      {/* {(aikuistenKuvataide || nuortenKuvataide) && (
+        <ArtTherapyBadge
+          aikuistenKuvataide={aikuistenKuvataide}
+          nuortenKuvataide={nuortenKuvataide}
+        />
+      )} */}
     </Stack>
   );
 
