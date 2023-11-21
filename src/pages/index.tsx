@@ -180,6 +180,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
       className: "table-container",
     },
     enableRowVirtualization: true,
+    rowVirtualizerOptions: { overscan: 5 },
     initialState: {
       showGlobalFilter: true,
       showColumnFilters: true,
