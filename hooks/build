@@ -1,1 +1,1 @@
-docker build --build-arg BACKEND_URL=https://terapeuttihaku.fi/api -f $DOCKERFILE_PATH -t $IMAGE_NAME .
+docker build --build-arg BUILD_BACKEND_URL=https://terapeuttihaku.fi/api -f $DOCKERFILE_PATH -t $IMAGE_NAME .
