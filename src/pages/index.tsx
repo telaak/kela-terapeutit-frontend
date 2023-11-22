@@ -164,8 +164,8 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
     enableGrouping: true,
     enableColumnFilterModes: true,
     positionToolbarAlertBanner: "none",
-    enablePagination: false,
-    enableBottomToolbar: false,
+    enablePagination: true,
+    enableBottomToolbar: true,
     enableColumnDragging: false,
     enableFullScreenToggle: false,
     layoutMode: "grid-no-grow",
@@ -179,12 +179,13 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
     muiTableContainerProps: {
       className: "table-container",
     },
-    enableRowVirtualization: true,
+    enableRowVirtualization: false,
     rowVirtualizerOptions: { overscan: 5 },
     initialState: {
+      pagination: { pageIndex: 0, pageSize: 50 },
       showGlobalFilter: true,
       showColumnFilters: true,
-      isFullScreen: false,
+      isFullScreen: true,
       columnVisibility: {
         therapies: true,
         lastActive: false,
