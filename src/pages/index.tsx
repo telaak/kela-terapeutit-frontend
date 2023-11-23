@@ -77,9 +77,9 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
               (location) => location.charAt(0) + location.slice(1).toLowerCase()
             )
             .join(", "),
-        header: "Paikat",
+        header: "Paikkakunnat",
         size: 150,
-        filterVariant: "select",
+        filterVariant: "autocomplete",
         filterSelectOptions: locations,
         filterFn: "contains",
         enableColumnFilterModes: false,
@@ -102,7 +102,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
           return stringArray.join(" ");
         },
         Cell: ({ row }) => <TherapiesCell row={row} />,
-        header: "Muodot",
+        header: "Terapiamuodot",
         size: 200,
         filterVariant: "autocomplete",
         filterSelectOptions: [
@@ -155,7 +155,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
         accessorFn: (row) => (row.phoneNumbers.length ? true : false),
         Cell: ({ row }) => {
           return (
-            <>
+            <Stack>
               {row.original.phoneNumbers.map((phoneNumber) => {
                 return (
                   <a key={phoneNumber} href={`tel:${phoneNumber}`}>
@@ -163,7 +163,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
                   </a>
                 );
               })}
-            </>
+            </Stack>
           );
         },
         header: "Puh.",
