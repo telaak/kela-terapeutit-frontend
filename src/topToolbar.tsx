@@ -4,7 +4,6 @@ import { Box, Tooltip, Button } from "@mui/material";
 import { copyEmails, isSelected, sendEmails } from "./helperFunctions";
 import EmailIcon from "@mui/icons-material/Email";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import { table } from "console";
 
 export function CopyEmailsButton({
   table,
@@ -13,18 +12,20 @@ export function CopyEmailsButton({
 }) {
   return (
     <Tooltip title={"Kopioi osoitteet"}>
-      <Button
-        disabled={!isSelected(table)}
-        color="warning"
-        onClick={() => copyEmails(table)}
-        variant="contained"
-        startIcon={<ContentCopyIcon />}
-        sx={{
-          width: "80px",
-        }}
-      >
-        ({table.getSelectedRowModel().flatRows.length})
-      </Button>
+      <span>
+        <Button
+          disabled={!isSelected(table)}
+          color="warning"
+          onClick={() => copyEmails(table)}
+          variant="contained"
+          startIcon={<ContentCopyIcon />}
+          sx={{
+            width: "80px",
+          }}
+        >
+          ({table.getSelectedRowModel().flatRows.length})
+        </Button>
+      </span>
     </Tooltip>
   );
 }
@@ -36,18 +37,20 @@ export function SendEmailsButton({
 }) {
   return (
     <Tooltip title={"Lähetä sähköposti"}>
-      <Button
-        disabled={!isSelected(table)}
-        color="warning"
-        onClick={() => sendEmails(table)}
-        variant="contained"
-        startIcon={<EmailIcon />}
-        sx={{
-          width: "80px",
-        }}
-      >
-        ({table.getSelectedRowModel().flatRows.length})
-      </Button>
+      <span>
+        <Button
+          disabled={!isSelected(table)}
+          color="warning"
+          onClick={() => sendEmails(table)}
+          variant="contained"
+          startIcon={<EmailIcon />}
+          sx={{
+            width: "80px",
+          }}
+        >
+          ({table.getSelectedRowModel().flatRows.length})
+        </Button>
+      </span>
     </Tooltip>
   );
 }

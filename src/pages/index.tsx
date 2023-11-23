@@ -157,7 +157,11 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
           return (
             <>
               {row.original.phoneNumbers.map((phoneNumber) => {
-                return <a href={`tel:${phoneNumber}`}>{phoneNumber}</a>;
+                return (
+                  <a key={phoneNumber} href={`tel:${phoneNumber}`}>
+                    {phoneNumber}
+                  </a>
+                );
               })}
             </>
           );
