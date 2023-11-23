@@ -1,9 +1,7 @@
 import {
-  MaterialReactTable,
   useMaterialReactTable,
   MRT_ColumnDef,
   MRT_ToggleDensePaddingButton,
-  MRT_ToggleFullScreenButton,
   MRT_TableContainer,
   MRT_GlobalFilterTextField,
   MRT_ShowHideColumnsButton,
@@ -13,25 +11,21 @@ import {
 import Head from "next/head";
 import { useMemo } from "react";
 import { MRT_Localization_FI } from "@/fi-i18";
-import { getTherapists } from "@/api";
+import { getTherapists } from "@/functions/api";
 import { Terapeutti } from "@/types";
-import { getUniqueOrientationsAndLocations } from "@/helperFunctions";
-import { TherapiesCell } from "@/cells/therapies";
-import { LastActiveCell } from "@/cells/lastActive";
-import { IsActiveCell } from "@/cells/isActive";
-import { CopyEmailsButton, SendEmailsButton, TopToolbar } from "@/topToolbar";
+import { getUniqueOrientationsAndLocations } from "@/functions/helperFunctions";
+import { TherapiesCell } from "@/cells/TherapiesCell";
+import { LastActiveCell } from "@/cells/LastActiveCell";
+import { IsActiveCell } from "@/cells/IsActiveCell";
+import { CopyEmailsButton } from "@/components/CopyEmailsButton";
+import { SendEmailsButton } from "@/components/SendEmailsButton";
+import { AppBar, Box, Paper, Stack, Toolbar } from "@mui/material";
+import { EmailCell } from "@/cells/EmailCell";
+import { PhoneNumbersCell } from "@/cells/PhoneNumbersCell";
 import {
-  AppBar,
-  Box,
-  Button,
-  Grid,
-  IconButton,
-  Paper,
-  Stack,
-  Toolbar,
-  Tooltip,
-} from "@mui/material";
-import PrintIcon from "@mui/icons-material/Print";
+  LocationsAccessorFn,
+  TherapiesAccessorFn,
+} from "@/functions/accesorFunctions";
 
 export async function getStaticProps() {
   const therapists = await getTherapists();
@@ -71,12 +65,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
       },
       {
         id: "locations",
-        accessorFn: (row) =>
-          row.locations
-            .map(
-              (location) => location.charAt(0) + location.slice(1).toLowerCase()
-            )
-            .join(", "),
+        accessorFn: (row) => LocationsAccessorFn(row),
         header: "Paikkakunnat",
         size: 150,
         filterVariant: "autocomplete",
@@ -86,21 +75,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
       },
       {
         id: "therapies",
-        accessorFn: (row) => {
-          const therapies = row.therapies;
-          const aikuisten = row.therapies.find(
-            (therapy) => therapy.muoto === "Aikuisten psykoterapia"
-          );
-          const nuorten = row.therapies.find(
-            (therapy) => therapy.muoto === "Nuorten psykoterapia"
-          );
-          const stringArray: string[] = [];
-          aikuisten?.lajit.forEach((laji) =>
-            stringArray.push(`Aikuisten ${laji}`)
-          );
-          nuorten?.lajit.forEach((laji) => stringArray.push(`Nuorten ${laji}`));
-          return stringArray.join(" ");
-        },
+        accessorFn: (row) => TherapiesAccessorFn(row),
         Cell: ({ row }) => <TherapiesCell row={row} />,
         header: "Terapiamuodot",
         size: 200,
@@ -121,13 +96,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
       {
         id: "email",
         accessorFn: (row) => (row.email ? true : false),
-        Cell: ({ row }) => {
-          return (
-            <>
-              <a href={`mailto:${row.original.email}`}>{row.original.email}</a>
-            </>
-          );
-        },
+        Cell: ({ row }) => <EmailCell row={row} />,
         header: "Email",
         size: 120,
         filterVariant: "checkbox",
@@ -153,19 +122,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
       {
         id: "phoneNumbers",
         accessorFn: (row) => (row.phoneNumbers.length ? true : false),
-        Cell: ({ row }) => {
-          return (
-            <Stack>
-              {row.original.phoneNumbers.map((phoneNumber) => {
-                return (
-                  <a key={phoneNumber} href={`tel:${phoneNumber}`}>
-                    {phoneNumber}
-                  </a>
-                );
-              })}
-            </Stack>
-          );
-        },
+        Cell: ({ row }) => <PhoneNumbersCell row={row} />,
         header: "Puh.",
         enableSorting: false,
         size: 120,
@@ -190,62 +147,10 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
     []
   );
 
-  // const table = useMaterialReactTable({
-  //   columns,
-  //   data: therapists,
-  //   enableRowSelection: true,
-  //   enableGrouping: true,
-  //   enableColumnFilterModes: true,
-  //   enableStickyFooter: false,
-  //   positionToolbarAlertBanner: "none",
-  //   enablePagination: true,
-  //   enableBottomToolbar: false,
-  //   enableColumnDragging: false,
-  //   enableFullScreenToggle: false,
-  //   layoutMode: "grid-no-grow",
-  //   localization: MRT_Localization_FI,
-  //   paginationDisplayMode: "pages",
-  //   positionPagination: "top",
-  //   muiPaginationProps: {
-  //     color: "primary",
-  //     shape: "rounded",
-  //     showRowsPerPage: false,
-  //     variant: "outlined",
-  //     showFirstButton: false,
-  //     showLastButton: false,
-  //   },
-  //   muiTableBodyCellProps: {
-  //     sx: {
-  //       whiteSpace: "normal",
-  //     },
-  //   },
-  //   muiTableContainerProps: {
-  //     className: "table-container",
-  //   },
-  //   enableRowVirtualization: false,
-  //   rowVirtualizerOptions: { overscan: 5 },
-  //   positionGlobalFilter: "left",
-  //   initialState: {
-  //     pagination: { pageIndex: 0, pageSize: 50 },
-  //     showGlobalFilter: true,
-  //     showColumnFilters: true,
-  //     isFullScreen: false,
-  //     columnVisibility: {
-  //       therapies: true,
-  //       lastActive: false,
-  //       homepage: false,
-  //       isActive: true,
-  //       locations: true,
-  //     },
-  //   },
-  //   renderTopToolbarCustomActions: ({ table }) => <TopToolbar table={table} />,
-  // });
-
   const table = useMaterialReactTable({
     columns,
     data: therapists,
     enableRowSelection: true,
-    // enableStickyHeader: true,
     localization: MRT_Localization_FI,
     muiTableBodyCellProps: {
       sx: {
@@ -278,7 +183,6 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
         <title>KELA Terapeuttihakemisto</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      {/* <MaterialReactTable table={table} /> */}
       <Stack>
         <AppBar color="primary" position="fixed">
           <Toolbar

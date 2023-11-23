@@ -1,5 +1,5 @@
 import { MRT_TableInstance } from "material-react-table";
-import { Terapeutti } from "./types";
+import { Terapeutti } from "../types";
 
 export const isSelected = (table: MRT_TableInstance<Terapeutti>) => {
   if (table.getIsAllRowsSelected()) {
