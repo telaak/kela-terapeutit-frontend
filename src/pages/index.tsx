@@ -26,6 +26,7 @@ import {
   LocationsAccessorFn,
   TherapiesAccessorFn,
 } from "@/functions/accesorFunctions";
+import { HomePageLink } from "@/components/HomePageLink";
 
 export async function getStaticProps() {
   const therapists = await getTherapists();
@@ -113,7 +114,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
         id: "homepage",
         accessorFn: (row) => (row.homepage ? true : false),
         Cell: ({ row }) => {
-          return <>{row.original.homepage}</>;
+          return <HomePageLink url={row.original.homepage} />;
         },
         header: "Kotisivu",
         size: 30,
