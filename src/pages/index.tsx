@@ -105,6 +105,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
         muiTableBodyCellProps: {
           sx: {
             wordBreak: "break-all",
+            border: "1px solid rgba(210, 210, 210, 1)",
           },
         },
       },
@@ -154,7 +155,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
     localization: MRT_Localization_FI,
     muiTableBodyCellProps: {
       sx: {
-        border: "1px solid rgba(224, 224, 224, 1)",
+        border: "1px solid rgba(210, 210, 210, 1)",
       },
     },
     initialState: {
