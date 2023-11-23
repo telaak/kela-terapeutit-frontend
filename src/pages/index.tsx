@@ -122,7 +122,11 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
         id: "email",
         accessorFn: (row) => (row.email ? true : false),
         Cell: ({ row }) => {
-          return <>{row.original.email}</>;
+          return (
+            <>
+              <a href={`mailto:${row.original.email}`}>{row.original.email}</a>
+            </>
+          );
         },
         header: "Email",
         size: 120,
@@ -150,7 +154,13 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
         id: "phoneNumbers",
         accessorFn: (row) => (row.phoneNumbers.length ? true : false),
         Cell: ({ row }) => {
-          return <>{row.original.phoneNumbers.join(" ")}</>;
+          return (
+            <>
+              {row.original.phoneNumbers.map((phoneNumber) => {
+                return <a href={`tel:${phoneNumber}`}>{phoneNumber}</a>;
+              })}
+            </>
+          );
         },
         header: "Puh.",
         enableSorting: false,
