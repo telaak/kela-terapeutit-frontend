@@ -2,6 +2,13 @@ import {
   MaterialReactTable,
   useMaterialReactTable,
   MRT_ColumnDef,
+  MRT_ToggleDensePaddingButton,
+  MRT_ToggleFullScreenButton,
+  MRT_TableContainer,
+  MRT_GlobalFilterTextField,
+  MRT_ShowHideColumnsButton,
+  MRT_ToggleFiltersButton,
+  MRT_TablePagination,
 } from "material-react-table";
 import Head from "next/head";
 import { useMemo } from "react";
@@ -12,7 +19,19 @@ import { getUniqueOrientationsAndLocations } from "@/helperFunctions";
 import { TherapiesCell } from "@/cells/therapies";
 import { LastActiveCell } from "@/cells/lastActive";
 import { IsActiveCell } from "@/cells/isActive";
-import { TopToolbar } from "@/topToolbar";
+import { CopyEmailsButton, SendEmailsButton, TopToolbar } from "@/topToolbar";
+import {
+  AppBar,
+  Box,
+  Button,
+  Grid,
+  IconButton,
+  Paper,
+  Stack,
+  Toolbar,
+  Tooltip,
+} from "@mui/material";
+import PrintIcon from "@mui/icons-material/Print";
 
 export async function getStaticProps() {
   const therapists = await getTherapists();
@@ -60,7 +79,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
             .join(", "),
         header: "Paikat",
         size: 150,
-        filterVariant: "autocomplete",
+        filterVariant: "select",
         filterSelectOptions: locations,
         filterFn: "contains",
         enableColumnFilterModes: false,
@@ -157,35 +176,75 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
     []
   );
 
+  // const table = useMaterialReactTable({
+  //   columns,
+  //   data: therapists,
+  //   enableRowSelection: true,
+  //   enableGrouping: true,
+  //   enableColumnFilterModes: true,
+  //   enableStickyFooter: false,
+  //   positionToolbarAlertBanner: "none",
+  //   enablePagination: true,
+  //   enableBottomToolbar: false,
+  //   enableColumnDragging: false,
+  //   enableFullScreenToggle: false,
+  //   layoutMode: "grid-no-grow",
+  //   localization: MRT_Localization_FI,
+  //   paginationDisplayMode: "pages",
+  //   positionPagination: "top",
+  //   muiPaginationProps: {
+  //     color: "primary",
+  //     shape: "rounded",
+  //     showRowsPerPage: false,
+  //     variant: "outlined",
+  //     showFirstButton: false,
+  //     showLastButton: false,
+  //   },
+  //   muiTableBodyCellProps: {
+  //     sx: {
+  //       whiteSpace: "normal",
+  //     },
+  //   },
+  //   muiTableContainerProps: {
+  //     className: "table-container",
+  //   },
+  //   enableRowVirtualization: false,
+  //   rowVirtualizerOptions: { overscan: 5 },
+  //   positionGlobalFilter: "left",
+  //   initialState: {
+  //     pagination: { pageIndex: 0, pageSize: 50 },
+  //     showGlobalFilter: true,
+  //     showColumnFilters: true,
+  //     isFullScreen: false,
+  //     columnVisibility: {
+  //       therapies: true,
+  //       lastActive: false,
+  //       homepage: false,
+  //       isActive: true,
+  //       locations: true,
+  //     },
+  //   },
+  //   renderTopToolbarCustomActions: ({ table }) => <TopToolbar table={table} />,
+  // });
+
   const table = useMaterialReactTable({
     columns,
     data: therapists,
     enableRowSelection: true,
-    enableGrouping: true,
-    enableColumnFilterModes: true,
-    positionToolbarAlertBanner: "none",
-    enablePagination: true,
-    enableBottomToolbar: true,
-    enableColumnDragging: false,
-    enableFullScreenToggle: false,
-    layoutMode: "grid-no-grow",
+    // enableStickyHeader: true,
     localization: MRT_Localization_FI,
-    paginationDisplayMode: "pages",
     muiTableBodyCellProps: {
       sx: {
-        whiteSpace: "normal",
+        border: "1px solid rgba(224, 224, 224, 1)",
       },
     },
-    muiTableContainerProps: {
-      className: "table-container",
-    },
-    enableRowVirtualization: false,
-    rowVirtualizerOptions: { overscan: 5 },
     initialState: {
-      pagination: { pageIndex: 0, pageSize: 50 },
       showGlobalFilter: true,
       showColumnFilters: true,
-      isFullScreen: true,
+      pagination: {
+        pageSize: 50,
+        pageIndex: 0,
+      },
       columnVisibility: {
         therapies: true,
         lastActive: false,
@@ -194,7 +253,9 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
         locations: true,
       },
     },
-    renderTopToolbarCustomActions: ({ table }) => <TopToolbar table={table} />,
+    muiTableContainerProps: {
+      className: "table-container",
+    },
   });
 
   return (
@@ -203,7 +264,40 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
         <title>KELA Terapeuttihakemisto</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <MaterialReactTable table={table} />
+      {/* <MaterialReactTable table={table} /> */}
+      <Stack>
+        <AppBar color="primary" position="fixed">
+          <Toolbar
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <Stack direction={"row"} spacing={1}>
+              <Paper>
+                <CopyEmailsButton table={table} />
+              </Paper>
+              <Paper>
+                <SendEmailsButton table={table} />
+              </Paper>
+            </Stack>
+            <Paper>
+              <MRT_GlobalFilterTextField table={table} />
+            </Paper>
+            <Paper>
+              <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <MRT_ToggleFiltersButton table={table} />
+                <MRT_ShowHideColumnsButton table={table} />
+                <MRT_ToggleDensePaddingButton table={table} />
+              </Box>
+            </Paper>
+          </Toolbar>
+        </AppBar>
+        <Toolbar />
+        <MRT_TablePagination table={table} />
+      </Stack>
+      <MRT_TableContainer table={table} />
+      <MRT_TablePagination table={table} />
     </>
   );
 }

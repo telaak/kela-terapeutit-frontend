@@ -1,73 +1,73 @@
 import { MRT_TableInstance } from "material-react-table";
 import { Terapeutti } from "./types";
 import { Box, Tooltip, Button } from "@mui/material";
-import { isSelected } from "./helperFunctions";
+import { copyEmails, isSelected, sendEmails } from "./helperFunctions";
 import EmailIcon from "@mui/icons-material/Email";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { table } from "console";
+
+export function CopyEmailsButton({
+  table,
+}: {
+  table: MRT_TableInstance<Terapeutti>;
+}) {
+  return (
+    <Tooltip title={"Kopioi osoitteet"}>
+      <Button
+        disabled={!isSelected(table)}
+        color="warning"
+        onClick={() => copyEmails(table)}
+        variant="contained"
+        startIcon={<ContentCopyIcon />}
+        sx={{
+          width: "80px",
+        }}
+      >
+        ({table.getSelectedRowModel().flatRows.length})
+      </Button>
+    </Tooltip>
+  );
+}
+
+export function SendEmailsButton({
+  table,
+}: {
+  table: MRT_TableInstance<Terapeutti>;
+}) {
+  return (
+    <Tooltip title={"Lähetä sähköposti"}>
+      <Button
+        disabled={!isSelected(table)}
+        color="warning"
+        onClick={() => sendEmails(table)}
+        variant="contained"
+        startIcon={<EmailIcon />}
+        sx={{
+          width: "80px",
+        }}
+      >
+        ({table.getSelectedRowModel().flatRows.length})
+      </Button>
+    </Tooltip>
+  );
+}
 
 export function TopToolbar({
   table,
 }: {
   table: MRT_TableInstance<Terapeutti>;
 }) {
-  const sendEmail = () => {
-    const emails = table
-      .getSelectedRowModel()
-      .flatRows.map((row) => row.original.email);
-    let mail = document.createElement("a");
-    mail.href = `mailto:?bcc=${emails.join(",")}`;
-    mail.target = "_blank";
-    mail.click();
-  };
-  const copyEmails = () => {
-    const emails = table
-      .getSelectedRowModel()
-      .flatRows.map((row) => row.original.email);
-    navigator.clipboard.writeText(emails.join(","));
-  };
   return (
     <Box
       sx={{
         display: "flex",
         flexDirection: "row",
+        width: "100%",
+        justifyContent: "flex-end",
       }}
     >
-      <Tooltip title={"Lähetä sähköposti"}>
-        <span
-          style={{
-            marginRight: "0.5em",
-          }}
-        >
-          <Button
-            disabled={!isSelected(table)}
-            color="primary"
-            onClick={sendEmail}
-            variant="contained"
-            startIcon={<EmailIcon />}
-            sx={{
-              width: "80px",
-            }}
-          >
-            ({table.getSelectedRowModel().flatRows.length})
-          </Button>
-        </span>
-      </Tooltip>
-      <Tooltip title={"Kopioi osoitteet"}>
-        <span>
-          <Button
-            disabled={!isSelected(table)}
-            color="primary"
-            onClick={copyEmails}
-            variant="contained"
-            startIcon={<ContentCopyIcon />}
-            sx={{
-              width: "80px",
-            }}
-          >
-            ({table.getSelectedRowModel().flatRows.length})
-          </Button>
-        </span>
-      </Tooltip>
+      <SendEmailsButton table={table} />
+      <CopyEmailsButton table={table} />
     </Box>
   );
 }

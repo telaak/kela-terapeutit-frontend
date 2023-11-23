@@ -29,3 +29,19 @@ export function getUniqueOrientationsAndLocations(therapists: Terapeutti[]) {
     Array.from(nameSet),
   ];
 }
+
+export const sendEmails = (table: MRT_TableInstance<Terapeutti>) => {
+  const emails = table
+    .getSelectedRowModel()
+    .flatRows.map((row) => row.original.email);
+  let mail = document.createElement("a");
+  mail.href = `mailto:?bcc=${emails.join(",")}`;
+  mail.target = "_blank";
+  mail.click();
+};
+export const copyEmails = (table: MRT_TableInstance<Terapeutti>) => {
+  const emails = table
+    .getSelectedRowModel()
+    .flatRows.map((row) => row.original.email);
+  navigator.clipboard.writeText(emails.join(","));
+};

@@ -3,11 +3,23 @@ body {
 }
 
 /* .table-container {
-  height: calc(100vh - 56px - 56px);
-  height: calc(100dvh - 56px - 56px);
+  height: calc(100vh - 64px - 58px);
+  height: calc(100dvh - 64px - 58px);
+} */
+/* 
+@media (min-width: 600px) {
+  .table-container {
+    height: calc(100vh - 64px - 58px);
+    height: calc(100dvh - 64px - 58px);
+  }
+} */
+
+@page {
+  size: landscape;
+  margin: 0 !important;
 }
 
-@media (max-width: 720px) {
+/* @media (max-width: 720px) {
   .table-container {
     height: calc(100vh - 56px - 74px);
     height: calc(100dvh - 56px - 74px);
