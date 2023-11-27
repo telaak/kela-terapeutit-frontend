@@ -4,6 +4,13 @@ import { Tooltip, Button } from "@mui/material";
 import { isSelected, sendEmails } from "../functions/helperFunctions";
 import EmailIcon from "@mui/icons-material/Email";
 
+/**
+ * Send emails button
+ * Checks whether any rows are selected to enable/disable the button
+ * See {@link sendEmails} and {@link isSelected}
+ * @param param0 the table instance from props
+ * @returns
+ */
 
 export function SendEmailsButton({
   table,

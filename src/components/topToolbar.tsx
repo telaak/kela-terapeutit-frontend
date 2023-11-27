@@ -4,6 +4,12 @@ import { Box } from "@mui/material";
 import { SendEmailsButton } from "./SendEmailsButton";
 import { CopyEmailsButton } from "./CopyEmailsButton";
 
+/**
+ * Unused
+ * @param param0 
+ * @returns 
+ */
+
 export function TopToolbar({
   table,
 }: {

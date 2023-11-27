@@ -1,5 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
+/**
+ * Used to revalidate statically generated pages: the main table for now
+ * See {@link https://nextjs.org/docs/pages/building-your-application/data-fetching/incremental-static-regeneration}
+ * @param req incoming request
+ * @param res response object
+ * @returns
+ */
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>

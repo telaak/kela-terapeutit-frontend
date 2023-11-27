@@ -1,6 +1,13 @@
 import { MRT_TableInstance } from "material-react-table";
 import { Terapeutti } from "../types";
 
+/**
+ * Checks whether at least one row is selected
+ * Used to disable/enable the copy/send email(s) buttons
+ * @param table
+ * @returns
+ */
+
 export const isSelected = (table: MRT_TableInstance<Terapeutti>) => {
   if (table.getIsAllRowsSelected()) {
     return true;
@@ -9,6 +16,14 @@ export const isSelected = (table: MRT_TableInstance<Terapeutti>) => {
   }
   return false;
 };
+
+/**
+ * Forms arrays of unique values by leveraging sets
+ * Orientations and locations have duplicates
+ * Used for filtering through autocomplete columns
+ * @param therapists
+ * @returns
+ */
 
 export function getUniqueOrientationsAndLocations(therapists: Terapeutti[]) {
   const orientationSet: Set<string> = new Set();
@@ -30,6 +45,12 @@ export function getUniqueOrientationsAndLocations(therapists: Terapeutti[]) {
   ];
 }
 
+/**
+ * Maps all the selected rows and their corresponding emails
+ * Creates a mailto link with all the emails joined and presses it
+ * @param table
+ */
+
 export const sendEmails = (table: MRT_TableInstance<Terapeutti>) => {
   const emails = table
     .getSelectedRowModel()
@@ -39,6 +60,14 @@ export const sendEmails = (table: MRT_TableInstance<Terapeutti>) => {
   mail.target = "_blank";
   mail.click();
 };
+
+/**
+ * Maps all the selected rows and their corresponding emails
+ * Copies them all to the clipboard for easier use
+ * Copying to the clipboard requires a secure context, HTTPS or localhost
+ * @param table
+ */
+
 export const copyEmails = (table: MRT_TableInstance<Terapeutti>) => {
   const emails = table
     .getSelectedRowModel()

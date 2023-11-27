@@ -6,6 +6,12 @@ import {
 import PersonIcon from "@mui/icons-material/Person";
 import GroupsIcon from "@mui/icons-material/Groups";
 
+/**
+ * Currently unused
+ * @param param0 
+ * @returns 
+ */
+
 export function ArtTherapyBadge({
   nuortenKuvataide, aikuistenKuvataide,
 }: {

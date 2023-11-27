@@ -1,5 +1,9 @@
 import { MRT_Localization } from "material-react-table";
 
+/**
+ * Finnish localization for table text
+ */
+
 export const MRT_Localization_FI: MRT_Localization = {
   actions: "Toiminnot",
   and: "ja",

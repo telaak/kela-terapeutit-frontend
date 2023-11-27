@@ -28,6 +28,12 @@ import {
 } from "@/functions/accesorFunctions";
 import { HomePageLink } from "@/components/HomePageLink";
 
+/**
+ * Static building for the main table
+ * Fetches {@link getTherapists} all therapists {@link Terapeutti} from the API
+ * @returns therapists array inside the props object
+ */
+
 export async function getStaticProps() {
   const therapists = await getTherapists();
 
@@ -38,10 +44,25 @@ export async function getStaticProps() {
   };
 }
 
+/**
+ * Main table
+ * @param therapists destructured therapists {@link Terapeutti} array
+ * @returns
+ */
+
 export default function Table({ therapists }: { therapists: Terapeutti[] }) {
+  /**
+   * Memoized unique orientations, locations and names for autocomplete
+   * Faceted values includes too many duplicates
+   */
   const [orientations, locations, names] = useMemo(() => {
     return getUniqueOrientationsAndLocations(therapists);
   }, [therapists]);
+
+  /**
+   * Columns for the table
+   * Most columns have the filter pre-set and changing it disabled
+   */
 
   const columns = useMemo<MRT_ColumnDef<Terapeutti>[]>(
     () => [
@@ -56,6 +77,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
       },
       {
         id: "orientations",
+        // Array values joined
         accessorFn: (row) => row.orientations.join(", "),
         header: "Suuntaus",
         size: 150,
@@ -66,6 +88,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
       },
       {
         id: "locations",
+        // Changes locations from all caps to capitalized first letter only
         accessorFn: (row) => LocationsAccessorFn(row),
         header: "Paikkakunnat",
         size: 150,
@@ -76,6 +99,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
       },
       {
         id: "therapies",
+        // Maps the therapy types for searchability
         accessorFn: (row) => TherapiesAccessorFn(row),
         Cell: ({ row }) => <TherapiesCell row={row} />,
         header: "Terapiamuodot",
@@ -96,6 +120,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
       },
       {
         id: "email",
+        // True/false to allow for easy filtering with a checkbox
         accessorFn: (row) => (row.email ? true : false),
         Cell: ({ row }) => <EmailCell row={row} />,
         header: "Email",
@@ -111,7 +136,9 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
         },
       },
       {
+        // Currently hidden
         id: "homepage",
+        // True/false to allow for easy filtering with a checkbox
         accessorFn: (row) => (row.homepage ? true : false),
         Cell: ({ row }) => {
           return <HomePageLink url={row.original.homepage} />;
@@ -123,6 +150,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
       },
       {
         id: "phoneNumbers",
+        // True/false to allow for easy filtering with a checkbox
         accessorFn: (row) => (row.phoneNumbers.length ? true : false),
         Cell: ({ row }) => <PhoneNumbersCell row={row} />,
         header: "Puh.",
@@ -139,6 +167,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
         header: "Akt.",
         Cell: ({ row }) => <IsActiveCell row={row} />,
       },
+      // Currently hidden
       {
         accessorKey: "lastActive",
         size: 30,
@@ -149,10 +178,18 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
     []
   );
 
+  /**
+   * Manual pagination to leverage the state for useEffect hook
+   */
+
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 50,
   });
+
+  /**
+   * On changing the page index, scroll to the top
+   */
 
   useEffect(() => {
     window.scrollTo({
@@ -165,6 +202,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
     data: therapists,
     enableRowSelection: true,
     localization: MRT_Localization_FI,
+    // Borders for cell for improved readability
     muiTableBodyCellProps: {
       sx: {
         border: "1px solid rgba(210, 210, 210, 1)",
@@ -222,6 +260,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
             </Paper>
           </Toolbar>
         </AppBar>
+        {/* Second empty Toolbar to offset fixed placement */}
         <Toolbar />
         <MRT_TablePagination table={table} />
       </Stack>
