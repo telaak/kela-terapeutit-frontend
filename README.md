@@ -16,6 +16,9 @@ Suodatusominaisuudet
 ![image](https://github.com/telaak/kela-terapeutit-frontend/assets/35933416/83c267e9-f6b6-46b2-a5f8-0afafede8783)
 
 
+### Dokumentaatio
+
+Suurin osa lähdekoodista on kommentoitu, ja kommenteista tehty TypeDoc-dokumentaatio löytyy osoitteests [https://terapeuttihaku.fi/docs/kela-frontend/](https://terapeuttihaku.fi/docs/kela-frontend/)
 
 ## Aloittaminen
 
