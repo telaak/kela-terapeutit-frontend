@@ -9,10 +9,12 @@ Ohjelma hakee projektin toiselta osiolta rajapinnasta terapeuttien tiedon ja muo
 ### Kuvankaappauksia 
 
 Päänäkymä
-![image](https://user-images.githubusercontent.com/35933416/235946615-34ae7a93-756f-491a-be37-cbae98f0b7c9.png) 
+![image](https://github.com/telaak/kela-terapeutit-frontend/assets/35933416/19f5cb7e-95f2-4313-8b41-be547966548b)
 
-Ryhmitys
-![image](https://user-images.githubusercontent.com/35933416/235947007-bac7e357-a3f0-4de6-b999-d8b2170e3e14.png)
+
+Suodatusominaisuudet
+![image](https://github.com/telaak/kela-terapeutit-frontend/assets/35933416/83c267e9-f6b6-46b2-a5f8-0afafede8783)
+
 
 
 ## Aloittaminen
@@ -20,7 +22,7 @@ Ryhmitys
 ### Vaatimukset
 
 * Next.js
-* https://github.com/telaak/tays-terapeutit-backend
+* https://github.com/telaak/kela-terapeutit-backend
 
 ### Asentaminen
 
