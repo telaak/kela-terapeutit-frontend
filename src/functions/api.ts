@@ -1,15 +1,17 @@
 import axios from "axios";
 import { Terapeutti } from "../types";
 
-
-export const apiUrl = `${process.env.BACKEND_URL}`;
+export const axiosInstance = axios.create({
+  withCredentials: true,
+  baseURL: `${process.env.BACKEND_URL}`,
+});
 
 /**
  * Gets all therapists {@link Terapeutti} from provided URL
- * @returns 
+ * @returns
  */
 
 export async function getTherapists(): Promise<any[]> {
-  const res = await axios.get(`${apiUrl}/therapist`);
+  const res = await axiosInstance.get(`/therapist`);
   return res.data;
 }
