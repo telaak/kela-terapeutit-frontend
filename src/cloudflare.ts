@@ -3,9 +3,10 @@ import pDebounce from "p-debounce";
 
 export const debouncedRevalidate = pDebounce((res: NextApiResponse<any>) => {
   res.revalidate("/");
+  // purgeCloudflare();
 }, 1000 * 10);
 
-const debouncedPurge = pDebounce(purgeCloudflare, 1000 * 10);
+export const debouncedPurge = pDebounce(purgeCloudflare, 1000 * 10);
 
 export async function purgeCloudflare() {
   try {
