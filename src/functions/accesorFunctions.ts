@@ -1,5 +1,3 @@
-import { Terapeutti, Therapy } from "@/types";
-
 /**
  * Changes the all caps location texts to just capitalized first letter
  * Joins them together with commas for better readability
@@ -7,7 +5,11 @@ import { Terapeutti, Therapy } from "@/types";
  * @returns
  */
 
-export function LocationsAccessorFn(row: Terapeutti) {
+import { TherapistWithTherapies } from "@/prisma";
+import { Therapist } from "@prisma/client";
+import { Prisma } from "@prisma/client";
+
+export function LocationsAccessorFn(row: TherapistWithTherapies) {
   return row.locations
     .map((location) => location.charAt(0) + location.slice(1).toLowerCase())
     .join(", ");
@@ -21,7 +23,7 @@ export function LocationsAccessorFn(row: Terapeutti) {
  * @returns mapped string for column filtering purposes
  */
 
-export function TherapiesAccessorFn(row: Terapeutti) {
+export function TherapiesAccessorFn(row: TherapistWithTherapies) {
   const aikuisten = row.therapies.find(
     (therapy) => therapy.muoto === "Aikuisten psykoterapia"
   );

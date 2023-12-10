@@ -1,8 +1,9 @@
 import { MRT_TableInstance } from "material-react-table";
-import { Terapeutti } from "../types";
 import { Tooltip, Button } from "@mui/material";
 import { isSelected, sendEmails } from "../functions/helperFunctions";
 import EmailIcon from "@mui/icons-material/Email";
+import { Therapist } from "@prisma/client";
+import { TherapistWithTherapies } from "@/prisma";
 
 /**
  * Send emails button
@@ -15,7 +16,7 @@ import EmailIcon from "@mui/icons-material/Email";
 export function SendEmailsButton({
   table,
 }: {
-  table: MRT_TableInstance<Terapeutti>;
+  table: MRT_TableInstance<TherapistWithTherapies>;
 }) {
   return (
     <Tooltip title={"Lähetä sähköposti"}>

@@ -1,4 +1,4 @@
-import { Terapeutti } from "@/types";
+import { TherapistWithTherapies } from "@/prisma";
 import { Stack } from "@mui/material";
 import { MRT_Row } from "material-react-table";
 
@@ -9,7 +9,7 @@ import { MRT_Row } from "material-react-table";
  * @returns
  */
 
-export function PhoneNumbersCell({ row }: { row: MRT_Row<Terapeutti> }) {
+export function PhoneNumbersCell({ row }: { row: MRT_Row<TherapistWithTherapies> }) {
   return (
     <Stack>
       {row.original.phoneNumbers.map((phoneNumber) => {

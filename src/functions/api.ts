@@ -1,5 +1,6 @@
+import { TherapistWithTherapies } from "@/prisma";
+import { Therapist } from "@prisma/client";
 import axios from "axios";
-import { Terapeutti } from "../types";
 
 export const axiosInstance = axios.create({
   withCredentials: true,
@@ -11,7 +12,7 @@ export const axiosInstance = axios.create({
  * @returns
  */
 
-export async function getTherapists(): Promise<any[]> {
+export async function getTherapists(): Promise<TherapistWithTherapies[]> {
   const res = await axiosInstance.get(`/therapist`);
   return res.data;
 }

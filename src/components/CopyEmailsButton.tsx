@@ -1,8 +1,9 @@
 import { MRT_TableInstance } from "material-react-table";
-import { Terapeutti } from "../types";
 import { Tooltip, Button } from "@mui/material";
 import { copyEmails, isSelected } from "../functions/helperFunctions";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { Therapist } from "@prisma/client";
+import { TherapistWithTherapies } from "@/prisma";
 
 /**
  * Copy emails button
@@ -14,7 +15,7 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 export function CopyEmailsButton({
   table,
 }: {
-  table: MRT_TableInstance<Terapeutti>;
+  table: MRT_TableInstance<TherapistWithTherapies>;
 }) {
   return (
     <Tooltip title={"Kopioi osoitteet"}>

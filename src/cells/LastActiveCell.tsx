@@ -1,4 +1,4 @@
-import { Terapeutti } from "@/types";
+import { TherapistWithTherapies } from "@/prisma";
 import dayjs from "dayjs";
 import { MRT_Row } from "material-react-table";
 
@@ -8,7 +8,7 @@ import { MRT_Row } from "material-react-table";
  * @returns
  */
 
-export function LastActiveCell({ row }: { row: MRT_Row<Terapeutti> }) {
+export function LastActiveCell({ row }: { row: MRT_Row<TherapistWithTherapies> }) {
   const dateString = row.original.lastActive;
   return dateString ? <>{dayjs(dateString).format("DD.MM.YY")}</> : <></>;
 }
