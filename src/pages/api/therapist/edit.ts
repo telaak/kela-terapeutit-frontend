@@ -2,6 +2,12 @@ import { authOptions } from "@/appa/api/autha/[...nextauth]/authOptions";
 import { prisma } from "@/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
+import pDebounce from "p-debounce";
+
+const debouncedRevalidate = pDebounce(
+  (res: NextApiResponse<any>) => res.revalidate("/"),
+  1000 * 10
+);
 
 export default async function handler(
   req: NextApiRequest,
@@ -25,7 +31,7 @@ export default async function handler(
               isActive: isActive,
             },
           });
-          await res.revalidate("/");
+          debouncedRevalidate(res);
           return res.json(therapist);
         }
         return res.json({ session });
