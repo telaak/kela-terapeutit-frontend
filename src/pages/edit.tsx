@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 import { TherapistWithTherapies, prisma } from "@/prisma";
 import ky from "ky";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
@@ -116,7 +116,7 @@ export function EditForm({ therapist }: { therapist: TherapistWithTherapies }) {
   const onSubmit: SubmitHandler<{ isActive: boolean }> = async (data) => {
     try {
       const json = await ky
-        .post("https://kela.laaksonen.cc/api/therapist/edit", {
+        .post(`${window.location.origin}/api/therapist/edit`, {
           json: { isActive: data.isActive },
         })
         .json();

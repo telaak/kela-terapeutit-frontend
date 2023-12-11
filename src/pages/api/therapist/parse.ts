@@ -1,3 +1,4 @@
+import { debouncedRevalidate } from "@/cloudflare";
 import { prisma } from "@/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -30,7 +31,7 @@ export default async function handler(
             isActive: trimmedSubject === "enable" ? true : false,
           },
         });
-        res.revalidate("/");
+        debouncedRevalidate(res);
         res.status(200).send(update);
       }
     }

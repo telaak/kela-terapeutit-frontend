@@ -1,4 +1,5 @@
 import { authOptions } from "@/appa/api/autha/[...nextauth]/authOptions";
+import { debouncedRevalidate } from "@/cloudflare";
 import { prisma } from "@/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
@@ -25,7 +26,7 @@ export default async function handler(
               isActive: isActive,
             },
           });
-          res.revalidate("/");
+          debouncedRevalidate(res);
           return res.json(therapist);
         }
         return res.json({ session });

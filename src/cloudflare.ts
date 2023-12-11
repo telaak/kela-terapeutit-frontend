@@ -1,9 +1,9 @@
 import type { NextApiResponse } from "next";
 import pDebounce from "p-debounce";
 
-export const debouncedRevalidate = pDebounce((res: NextApiResponse<any>) => {
-  res.revalidate("/");
-  // purgeCloudflare();
+export const debouncedRevalidate = pDebounce(async (res: NextApiResponse<any>) => {
+  await res.revalidate("/");
+  await purgeCloudflare();
 }, 1000 * 10);
 
 export const debouncedPurge = pDebounce(purgeCloudflare, 1000 * 10);
