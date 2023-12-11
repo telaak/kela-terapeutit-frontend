@@ -28,6 +28,7 @@ ARG BACKEND_URL
 RUN if [  -z ${BACKEND_URL} ];then \
   export BACKEND_URL=$BACKEND_URL; \
   fi
+RUN apt update -y && apt install -y openssl
 RUN npx prisma generate
 RUN yarn build
 
