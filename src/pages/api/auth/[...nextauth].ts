@@ -4,7 +4,6 @@ import type { NextAuthOptions } from "next-auth";
 import { prisma } from "@/prisma";
 import NextAuth from "next-auth";
 
-
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
 
@@ -23,6 +22,18 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn(params) {
+      if (
+        params.email &&
+        params.user.email &&
+        params.email.verificationRequest
+      ) {
+        const verificationToken = await prisma.verificationToken.findFirst({
+          where: {
+            identifier: params.user.email,
+          },
+        });
+        if (verificationToken) return false;
+      }
       if (params.user.email === "teemulaaks@gmail.com") return true;
       const therapist = await prisma.therapist.findMany({
         where: {
@@ -34,4 +45,4 @@ export const authOptions: NextAuthOptions = {
   },
 };
 
-export default NextAuth(authOptions)
+export default NextAuth(authOptions);
