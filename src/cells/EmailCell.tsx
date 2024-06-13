@@ -1,4 +1,4 @@
-import { Terapeutti } from "@/types";
+import { TherapistWithTherapies } from "@/prisma";
 import { MRT_Row } from "material-react-table";
 
 /**
@@ -7,7 +7,7 @@ import { MRT_Row } from "material-react-table";
  * @returns
  */
 
-export function EmailCell({ row }: { row: MRT_Row<Terapeutti> }) {
+export function EmailCell({ row }: { row: MRT_Row<TherapistWithTherapies> }) {
   return (
     <>
       <a href={`mailto:${row.original.email}`}>{row.original.email}</a>

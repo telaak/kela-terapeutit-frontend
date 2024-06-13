@@ -1,10 +1,10 @@
-import { Therapy } from "@/types";
 import {
   Badge,
   Chip, Tooltip
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import GroupsIcon from "@mui/icons-material/Groups";
+import { Therapy } from "@prisma/client";
 
 /**
  * Currently unused

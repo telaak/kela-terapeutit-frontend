@@ -1,7 +1,7 @@
-import { Terapeutti } from "@/types";
 import { Stack } from "@mui/material";
 import { MRT_Row } from "material-react-table";
 import { TherapyBadge } from "../components/TherapyBadge";
+import { TherapistWithTherapies } from "@/prisma";
 
 /**
  * Therapy types cell for the table
@@ -11,7 +11,7 @@ import { TherapyBadge } from "../components/TherapyBadge";
  * @returns
  */
 
-export function TherapiesCell({ row }: { row: MRT_Row<Terapeutti> }) {
+export function TherapiesCell({ row }: { row: MRT_Row<TherapistWithTherapies> }) {
   const nuorten = row.original.therapies.find(
     (therapy) => therapy.muoto === "Nuorten psykoterapia"
   );

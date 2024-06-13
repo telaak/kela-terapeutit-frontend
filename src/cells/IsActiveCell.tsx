@@ -1,9 +1,9 @@
-import { Terapeutti } from "@/types";
 import { Tooltip } from "@mui/material";
 import dayjs from "dayjs";
 import { MRT_Row } from "material-react-table";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
+import { TherapistWithTherapies } from "@/prisma";
 
 /**
  * Simple cell that creates a check or cross icon if therapist is active
@@ -12,7 +12,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
  * @returns
  */
 
-export function IsActiveCell({ row }: { row: MRT_Row<Terapeutti> }) {
+export function IsActiveCell({ row }: { row: MRT_Row<TherapistWithTherapies> }) {
   const isActive = row.original.isActive;
   return isActive ? (
     <Tooltip title={dayjs(row.original.lastActive).format("DD.MM.YY")}>

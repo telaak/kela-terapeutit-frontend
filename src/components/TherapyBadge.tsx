@@ -3,7 +3,6 @@ import PersonIcon from "@mui/icons-material/Person";
 import GroupsIcon from "@mui/icons-material/Groups";
 import FamilyRestroomIcon from "@mui/icons-material/FamilyRestroom";
 import Diversity1Icon from "@mui/icons-material/Diversity1";
-import { Therapy } from "../types";
 
 /**
  * Chip with 1-4 badges for the therapy type column, as compact as possible

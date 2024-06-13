@@ -12,7 +12,6 @@ import Head from "next/head";
 import { useEffect, useMemo, useState } from "react";
 import { MRT_Localization_FI } from "@/fi-i18";
 import { getTherapists } from "@/functions/api";
-import { Terapeutti } from "@/types";
 import { getUniqueOrientationsAndLocations } from "@/functions/helperFunctions";
 import { TherapiesCell } from "@/cells/TherapiesCell";
 import { LastActiveCell } from "@/cells/LastActiveCell";
@@ -27,6 +26,8 @@ import {
   TherapiesAccessorFn,
 } from "@/functions/accesorFunctions";
 import { HomePageLink } from "@/components/HomePageLink";
+import { Therapist } from "@prisma/client";
+import { TherapistWithTherapies } from "@/prisma";
 
 /**
  * Static building for the main table
@@ -50,7 +51,7 @@ export async function getStaticProps() {
  * @returns
  */
 
-export default function Table({ therapists }: { therapists: Terapeutti[] }) {
+export default function Table({ therapists }: { therapists: TherapistWithTherapies[] }) {
   /**
    * Memoized unique orientations, locations and names for autocomplete
    * Faceted values includes too many duplicates
@@ -64,7 +65,7 @@ export default function Table({ therapists }: { therapists: Terapeutti[] }) {
    * Most columns have the filter pre-set and changing it disabled
    */
 
-  const columns = useMemo<MRT_ColumnDef<Terapeutti>[]>(
+  const columns = useMemo<MRT_ColumnDef<TherapistWithTherapies>[]>(
     () => [
       {
         accessorKey: "name",

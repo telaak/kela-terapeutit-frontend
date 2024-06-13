@@ -1,8 +1,9 @@
 import { MRT_TableInstance } from "material-react-table";
-import { Terapeutti } from "../types";
 import { Box } from "@mui/material";
 import { SendEmailsButton } from "./SendEmailsButton";
 import { CopyEmailsButton } from "./CopyEmailsButton";
+import { Therapist } from "@prisma/client";
+import { TherapistWithTherapies } from "@/prisma";
 
 /**
  * Unused
@@ -13,7 +14,7 @@ import { CopyEmailsButton } from "./CopyEmailsButton";
 export function TopToolbar({
   table,
 }: {
-  table: MRT_TableInstance<Terapeutti>;
+  table: MRT_TableInstance<TherapistWithTherapies>;
 }) {
   return (
     <Box

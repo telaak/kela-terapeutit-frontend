@@ -1,5 +1,6 @@
+import { TherapistWithTherapies } from "@/prisma";
+import { Therapist } from "@prisma/client";
 import { MRT_TableInstance } from "material-react-table";
-import { Terapeutti } from "../types";
 
 /**
  * Checks whether at least one row is selected
@@ -8,7 +9,7 @@ import { Terapeutti } from "../types";
  * @returns
  */
 
-export const isSelected = (table: MRT_TableInstance<Terapeutti>) => {
+export const isSelected = (table: MRT_TableInstance<TherapistWithTherapies>) => {
   if (table.getIsAllRowsSelected()) {
     return true;
   } else if (table.getIsSomeRowsSelected()) {
@@ -25,7 +26,7 @@ export const isSelected = (table: MRT_TableInstance<Terapeutti>) => {
  * @returns
  */
 
-export function getUniqueOrientationsAndLocations(therapists: Terapeutti[]) {
+export function getUniqueOrientationsAndLocations(therapists: TherapistWithTherapies[]) {
   const orientationSet: Set<string> = new Set();
   const locationSet: Set<string> = new Set();
   const nameSet: Set<string> = new Set();
@@ -51,7 +52,7 @@ export function getUniqueOrientationsAndLocations(therapists: Terapeutti[]) {
  * @param table
  */
 
-export const sendEmails = (table: MRT_TableInstance<Terapeutti>) => {
+export const sendEmails = (table: MRT_TableInstance<TherapistWithTherapies>) => {
   const emails = table
     .getSelectedRowModel()
     .flatRows.map((row) => row.original.email);
@@ -68,7 +69,7 @@ export const sendEmails = (table: MRT_TableInstance<Terapeutti>) => {
  * @param table
  */
 
-export const copyEmails = (table: MRT_TableInstance<Terapeutti>) => {
+export const copyEmails = (table: MRT_TableInstance<TherapistWithTherapies>) => {
   const emails = table
     .getSelectedRowModel()
     .flatRows.map((row) => row.original.email);
