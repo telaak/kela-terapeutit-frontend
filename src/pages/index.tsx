@@ -216,7 +216,7 @@ export default function Table({ therapists }: { therapists: TherapistWithTherapi
         therapies: true,
         lastActive: false,
         homepage: false,
-        isActive: true,
+        isActive: false,
         locations: true,
       },
     },
