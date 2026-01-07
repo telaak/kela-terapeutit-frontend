@@ -1,4 +1,4 @@
-FROM node:20-bookworm-slim AS base
+FROM node:24-slim AS base
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -50,12 +50,11 @@ COPY --from=builder /app/public ./public
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder ./app/.next/static ./.next/static
-COPY --from=builder /app/prisma ./prisma/
+COPY --chown=1001:1001 --from=builder /app/.next/standalone ./
+COPY --chown=1001:1001 --from=builder ./app/.next/static ./.next/static
+COPY --chown=1001:1001 --from=builder /app/prisma ./prisma/
 RUN apt update -y && apt install -y openssl
 ENV TZ=Europe/Helsinki
-RUN chown -R 1001:1001 /app
 USER nextjs
 
 EXPOSE 3000
