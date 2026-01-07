@@ -25,6 +25,8 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
+ENV BACKEND_URL=https://terapeuttihaku.fi/api
+
 RUN apt update -y && apt install -y openssl
 RUN npx prisma generate
 RUN yarn build
@@ -36,7 +38,7 @@ RUN yarn build
 FROM base AS runner
 WORKDIR /app
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 # Uncomment the following line in case you want to disable telemetry during runtime.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
