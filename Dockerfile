@@ -24,10 +24,7 @@ COPY . .
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
-ARG BACKEND_URL
-RUN if [  -z ${BACKEND_URL} ];then \
-  export BACKEND_URL=$BACKEND_URL; \
-  fi
+
 RUN apt update -y && apt install -y openssl
 RUN npx prisma generate
 RUN yarn build
